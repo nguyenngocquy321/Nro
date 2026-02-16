@@ -1,0 +1,135 @@
+.btnBuy {
+    width: 142px;
+    height: 45px;
+    background-color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ff324d;
+}
+
+/* chữ */
+.btnBuy span {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    transition: 0.3s;
+}
+
+/* 2 lớp đỏ */
+.btnBuy::before,
+.btnBuy::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: #ff324d;
+    transition: transform 0.5s ease;
+    z-index: 1;
+}
+
+/* trái */
+.btnBuy::before {
+    left: 0;
+}
+
+/* phải */
+.btnBuy::after {
+    right: 0;
+}
+
+/* hover tản ra */
+.btnBuy:hover::before {
+    transform: translateX(-100%);
+}
+
+.btnBuy:hover::after {
+    transform: translateX(100%);
+}
+.textTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+/* đổi màu chữ khi nền trắng lộ ra */
+.textTitle:hover,
+.btnBuy:hover span {
+    color: #ff324d;
+}
+.desc {
+    font-weight: bold;
+    color: #ff324d;
+}
+.cardWrapper {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Ảnh */
+.cardWrapper img {
+    width: 100%;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+/* Hover zoom ảnh */
+.cardWrapper:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay */
+.overLay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: 0.4s ease;
+}
+
+/* Hover tối ảnh */
+.cardWrapper:hover .overLay {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Heart wrapper */
+.containerHeart {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transform: translateY(40px);
+    opacity: 0;
+    transition: 0.4s ease;
+}
+
+/* Hover hiện heart */
+.cardWrapper:hover .containerHeart {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Icon style */
+.containerHeart svg {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+/* Hover icon */
+.containerHeart svg:hover {
+    background: #ff324d;
+    color: #fff;
+}

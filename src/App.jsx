@@ -1,15 +1,21 @@
-import { useState } from 'react';
-// import reactLogo from './assets/react.svg';
-// import viteLogo from '/vite.svg';
-import { Button } from '@mui/material';
+import routes from './routes/routes.jsx';
+import { Routes, Route } from 'react-router-dom';
+import Header from '@components/Header/Header';
+import Footer from '@components/Footer/Footer';
 function App() {
-    const [count, setCount] = useState(0);
-
     return (
         <>
-            <Button variant='contained' color='primary'>
-                Click
-            </Button>
+            <Header />
+            <Routes>
+                {routes.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={route.element}
+                    />
+                ))}
+            </Routes>
+            <Footer />
         </>
     );
 }
