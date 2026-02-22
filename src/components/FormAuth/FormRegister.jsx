@@ -1,17 +1,81 @@
-import { Row, Col, Form, Button, Card } from 'react-bootstrap';
+import { Row, Col, Card, Button, Alert, Spinner } from 'react-bootstrap';
 import { FaGoogle, FaFacebookF } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './styles.module.css';
+import { auth, db } from '@config/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 function FormRegister() {
     const { textNoAccount, btnDangNhap } = styles;
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [serverError, setServerError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const validationSchema = Yup.object({
+        email: Yup.string()
+            .email('Email không hợp lệ')
+            .required('Email không được bỏ trống'),
+        password: Yup.string()
+            .min(6, 'Ít nhất 6 ký tự')
+            .required('Mật khẩu không được bỏ trống'),
+    });
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        console.log('Email:', email);
-        console.log('Password:', password);
+    const handleSubmit = async (values, { resetForm }) => {
+        setServerError('');
+        setSuccess(false);
+        setLoading(true);
+
+        try {
+            const email = values.email.trim();
+            const password = values.password;
+
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            const user = userCredential.user;
+
+            await setDoc(doc(db, 'users', user.uid), {
+                uid: user.uid,
+                email: user.email,
+                role: 'user',
+                monNey: 0,
+                KM: 0,
+                createdAt: new Date(),
+            });
+
+            if (userCredential.user) {
+                setSuccess(true);
+                navigate('/');
+                resetForm();
+            }
+        } catch (error) {
+            console.log('REGISTER ERROR:', error);
+
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    setServerError('Email đã được đăng ký');
+                    break;
+
+                case 'auth/invalid-email':
+                    setServerError('Email không hợp lệ');
+                    break;
+
+                case 'auth/weak-password':
+                    setServerError('Mật khẩu quá yếu (ít nhất 6 ký tự)');
+                    break;
+
+                default:
+                    setServerError('Đăng ký thất bại, thử lại sau');
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -22,86 +86,105 @@ function FormRegister() {
                         <Card.Body className='p-4'>
                             <h3 className='mb-4'>Đăng Ký</h3>
 
-                            {/* Form */}
-                            <Form onSubmit={handleSubmit}>
-                                <Form.Group className='mb-3'>
-                                    <Form.Control
-                                        type='email'
-                                        placeholder='Tên đăng nhập hoặc email'
-                                        value={email}
-                                        className='p-2'
-                                        onChange={e => setEmail(e.target.value)}
-                                    />
-                                </Form.Group>
-                                <Form.Group className='mb-3'>
-                                    <Form.Control
-                                        type='number'
-                                        placeholder='Số điện thoại'
-                                        name='phone'
-                                        className='p-2'
-                                    />
-                                </Form.Group>
-                                <Form.Group className='mb-3'>
-                                    <Form.Control
-                                        type='password'
-                                        placeholder='Mật khẩu'
-                                        value={password}
-                                        className='p-2'
-                                        onChange={e =>
-                                            setPassword(e.target.value)
-                                        }
-                                    />
-                                </Form.Group>
+                            {success && (
+                                <Alert variant='success'>
+                                    🎉 Đăng ký thành công!
+                                </Alert>
+                            )}
 
-                                <button
-                                    type='submit'
-                                    className={`${btnDangNhap} p-2`}
-                                >
-                                    <span>Đăng Ký</span>
-                                </button>
-                            </Form>
+                            {serverError && (
+                                <Alert variant='danger'>{serverError}</Alert>
+                            )}
+
+                            <Formik
+                                initialValues={{
+                                    email: '',
+                                    password: '',
+                                }}
+                                validationSchema={validationSchema}
+                                onSubmit={handleSubmit}
+                            >
+                                <Form>
+                                    <div className='mb-3'>
+                                        <Field
+                                            type='email'
+                                            name='email'
+                                            placeholder='Email'
+                                            className='form-control'
+                                        />
+                                        <ErrorMessage
+                                            name='email'
+                                            component='div'
+                                            className='text-danger'
+                                        />
+                                    </div>
+
+                                    <div className='mb-3'>
+                                        <Field
+                                            type='password'
+                                            name='password'
+                                            placeholder='Mật khẩu'
+                                            className='form-control'
+                                        />
+                                        <ErrorMessage
+                                            name='password'
+                                            component='div'
+                                            className='text-danger'
+                                        />
+                                    </div>
+
+                                    <button
+                                        type='submit'
+                                        className={`${btnDangNhap} w-100 p-2`}
+                                        disabled={loading}
+                                    >
+                                        {loading ? (
+                                            <>
+                                                <Spinner
+                                                    animation='border'
+                                                    size='sm'
+                                                    className='me-2'
+                                                />
+                                                <span>Đang đăng ký...</span>
+                                            </>
+                                        ) : (
+                                            <span>Đăng ký</span>
+                                        )}
+                                    </button>
+                                </Form>
+                            </Formik>
 
                             <div className='text-center my-3'>
                                 <div className={textNoAccount}>
                                     <span>Đã có tài khoản?</span>
                                 </div>
                             </div>
-                            <div>
-                                <Button
-                                    type='submit'
-                                    className='w-100 my-3 p-2'
+
+                            <Button className='w-100 my-3'>
+                                <Link
+                                    to='/login'
+                                    className='text-decoration-none text-white'
                                 >
-                                    <Link
-                                        to='/register'
-                                        className='text-decoration-none text-white'
-                                    >
-                                        Đăng Nhập Ngay
-                                    </Link>
-                                </Button>
-                            </div>
+                                    Đăng Nhập Ngay
+                                </Link>
+                            </Button>
+
                             <div className='text-center my-3'>
                                 <div className={textNoAccount}>
                                     <span>Hoặc đăng nhập qua</span>
                                 </div>
                             </div>
-                            <Row className='mb-3'>
+
+                            <Row>
                                 <Col xs={6}>
-                                    <Button
-                                        variant='danger'
-                                        className='w-100 d-flex justify-content-center align-items-center gap-2'
-                                    >
-                                        <FaGoogle />
-                                        Google
+                                    <Button variant='danger' className='w-100'>
+                                        <FaGoogle /> Google
                                     </Button>
                                 </Col>
 
                                 <Col xs={6}>
-                                    <Button
-                                        variant='primary'
-                                        className='w-100 d-flex justify-content-center align-items-center gap-2'
-                                    >
-                                        <FaFacebookF />
-                                        Facebook
+                                    <Button variant='primary' className='w-100'>
+                                        <FaFacebookF /> Facebook
                                     </Button>
                                 </Col>
                             </Row>

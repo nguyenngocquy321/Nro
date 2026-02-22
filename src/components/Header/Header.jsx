@@ -1,14 +1,29 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { BsChevronDown, BsPerson } from 'react-icons/bs';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { MenuHeader } from '@contans/contans';
+import { auth } from '@config/firebase';
+import { signOut } from 'firebase/auth';
+import { useContext } from 'react';
+import UserSuccess from './UserSuccess/UserSuccess';
+import { AuthContext } from '@contexts/AuthContext';
+
 function Header() {
     const { menuHeaderRight, menuHeader, subMenu, menuItem } = styles;
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const logOut = async () => {
+        await signOut(auth);
+        navigate('/login');
+    };
+
     return (
         <Navbar bg='white' expand='lg' className='py-2'>
             <Container>
-                {/* Logo */}
-                <Navbar.Brand href='#' className='me-auto'>
+                {/* LOGO */}
+                <Navbar.Brand as={Link} to='/' className='me-auto'>
                     <img
                         src='https://bannick.s3.hcm-1.cloud.cmctelecom.vn/photos/shares/01_logo_game/nickmt/6979e35f433a0.png'
                         alt='Logo'
@@ -28,69 +43,56 @@ function Header() {
                                         <li
                                             key={index}
                                             className={
-                                                item.submenu === true
-                                                    ? menuItem
-                                                    : ''
+                                                item.submenu ? menuItem : ''
                                             }
                                         >
-                                            <a href={item.link}>
+                                            <Link to={item.link}>
                                                 {item.name}
-                                                {item.submenu === true && (
+                                                {item.submenu && (
                                                     <BsChevronDown
                                                         size={16}
                                                         className='ms-1'
                                                     />
                                                 )}
-                                            </a>
+                                            </Link>
 
-                                            {item.submenu === true &&
-                                                item.right !== true && (
-                                                    <ul className={subMenu}>
-                                                        {item.subMenu?.map(
-                                                            (
-                                                                subItem,
-                                                                subIndex
-                                                            ) => (
-                                                                <li
-                                                                    key={
-                                                                        subIndex
+                                            {item.submenu && !item.right && (
+                                                <ul className={subMenu}>
+                                                    {item.subMenu?.map(
+                                                        (subItem, subIndex) => (
+                                                            <li key={subIndex}>
+                                                                <Link
+                                                                    to={
+                                                                        subItem.link
                                                                     }
                                                                 >
-                                                                    <a
-                                                                        href={
-                                                                            subItem.link
-                                                                        }
-                                                                    >
-                                                                        {
-                                                                            subItem.name
-                                                                        }
-                                                                    </a>
-                                                                </li>
-                                                            )
-                                                        )}
-                                                    </ul>
-                                                )}
+                                                                    {
+                                                                        subItem.name
+                                                                    }
+                                                                </Link>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            )}
                                         </li>
                                     )
                             )}
                         </ul>
                     </Nav>
-                    {/* LOGIN PHẢI */}
+
+                    {/* BÊN PHẢI */}
                     <Nav id={menuHeaderRight}>
                         <ul className={menuHeader}>
-                            {MenuHeader.map(
-                                (item, index) =>
-                                    index === MenuHeader.length - 1 && (
-                                        <li>
-                                            <a href={item.link}>
-                                                <BsPerson
-                                                    size={24}
-                                                    className='me-2'
-                                                />
-                                                {item.name}
-                                            </a>
-                                        </li>
-                                    )
+                            {user ? (
+                                <UserSuccess logOut={logOut} />
+                            ) : (
+                                <li>
+                                    <Link to='/login'>
+                                        <BsPerson size={24} className='me-2' />
+                                        Đăng nhập
+                                    </Link>
+                                </li>
                             )}
                         </ul>
                     </Nav>

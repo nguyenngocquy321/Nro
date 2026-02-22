@@ -17,7 +17,7 @@ function Content() {
                         <Products />
                     </div>
                 </div>
-                <div className={containerContent}>
+                {/* <div className={containerContent}>
                     <div>
                         <h2 className={textTitle}>RANDOM CỰC HOT</h2>
                     </div>
@@ -32,7 +32,7 @@ function Content() {
                     <div>
                         <Products />
                     </div>
-                </div>
+                </div> */}
             </div>
         </Container>
     );

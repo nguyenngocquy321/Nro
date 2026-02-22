@@ -1,6 +1,7 @@
 import { Container, Button, Form, Tabs, Tab } from 'react-bootstrap';
 import styles from './styles.module.css';
 import HistoryNapThe from '../HistoryNapThe/HistoryNapThe';
+import BreadCrumb from '@common/BreadCum/BreadCum';
 
 function NapThe() {
     const { containerTop, containerForm, wrapPer, formNapCard } = styles;
@@ -8,6 +9,7 @@ function NapThe() {
     return (
         <div className={containerForm}>
             <Container className='py-5'>
+                <BreadCrumb title={'Nạp Card'} desc={'Nạp card'} />
                 <div className={wrapPer}>
                     {/* Thông báo */}
                     <div className={containerTop}>

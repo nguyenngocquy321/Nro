@@ -7,6 +7,7 @@ const MenuHeader = [
         name: 'Nạp Tiền',
         submenu: true,
         icon: 'BsChevronDown',
+        link: '#',
         subMenu: [
             {
                 name: 'Nạp qua thẻ điện thoại',
@@ -14,13 +15,13 @@ const MenuHeader = [
             },
             {
                 name: 'Nạp qua ATM Tặng 15%',
-                link: '#',
+                link: '/nap-atm',
             },
         ],
     },
     {
         name: 'Hướng dẫn',
-        link: '#',
+        link: '/blogs',
     },
     {
         name: 'Tin Tức',
@@ -29,7 +30,7 @@ const MenuHeader = [
         subMenu: [
             {
                 name: 'Tin Tức Game Ngọc Rồng',
-                link: '#',
+                link: '/category/tin-tuc-game-ngoc-rong',
             },
             {
                 name: 'Tin Tức Game Free Fire',
