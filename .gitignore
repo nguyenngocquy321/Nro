@@ -1,9 +1,32 @@
-node_modules
+# Thư viện (Cực nặng, không bao giờ đưa lên)
+node_modules/
+jspm_packages/
+
+# File cấu hình bảo mật (Chứa mật khẩu, Key, Token - RẤT QUAN TRỌNG)
 .env
+.env.*
+!.env.example
 serviceAccountKey.json
-# ======================
-# Logs
-# ======================
+*.pem
+*.pfx
+*.cert
+
+# Cache và dữ liệu tạm của Hosting (Firebase/Vercel)
+.cache/
+.firebase/
+hosting.*.cache
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Sản phẩm sau khi Build (Sẽ được tạo lại khi deploy)
+dist/
+dist-ssr/
+build/
+out/
+.next/
+
+# Logs (File ghi nhật ký lỗi)
 logs
 *.log
 npm-debug.log*
@@ -12,36 +35,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# ======================
-# Dependencies
-# ======================
-node_modules/
-
-# ======================
-# Environment variables
-# ======================
-.env
-.env.*
-!.env.example
-serviceAccountKey.json
-
-# ======================
-# Build output
-# ======================
-dist/
-dist-ssr/
-build/
-coverage/
-
-# ======================
-# OS files
-# ======================
+# File hệ thống (Rác của Windows/Mac)
 .DS_Store
+.DS_Store?
+._*
 Thumbs.db
+desktop.ini
 
-# ======================
-# Editor
-# ======================
+# Cấu hình riêng của IDE (Tránh xung đột với người khác)
 .vscode/*
 !.vscode/extensions.json
 .idea/
@@ -51,7 +52,6 @@ Thumbs.db
 *.sln
 *.sw?
 
-# ======================
-# Misc
-# ======================
-*.local
+# Testing (Kết quả chạy test)
+coverage/
+*.lcov
