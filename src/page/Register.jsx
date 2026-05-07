@@ -1,5 +1,5 @@
-import FormLogin from '@components/FormAuth/FormLogin';
-import FormRegister from '@components/FormAuth/FormRegister';
+import FormLogin from '@components/layout/FormAuth/FormLogin';
+import FormRegister from '@components/layout/FormAuth/FormRegister';
 
 function Register() {
     return (

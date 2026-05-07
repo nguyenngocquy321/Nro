@@ -5,19 +5,34 @@ import {
     BsClockHistory,
     BsCartCheck,
 } from 'react-icons/bs';
-
 import { Card, Col, Row, Nav, Container } from 'react-bootstrap';
-import { Link, useLocation, Outlet } from 'react-router-dom';
-import Breadcrum from '@common/BreadCum/BreadCum';
-import DashboardMember from './DashboardMember';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ChangePassword from './ChangePassword';
 import styles from './styles.module.css';
 import BalanceHistory from './BalanceHistory';
 import Transaction from './Transaction';
 import Purchase from './Purchase';
+import DashboardMember from './DashboardMember';
+import { getAuth } from 'firebase/auth';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '@contexts/UserProvider';
+import Breadcrumbs from '@components/common/Breadcrumbs/Breadcrumbs';
 function MemberLayout() {
     const location = useLocation();
+    const { user } = useContext(UserContext);
+    const navigate = useNavigate();
     const { memberSidebar } = styles;
+    const auth = getAuth();
+    useEffect(() => {
+        if (!auth.currentUser) {
+            navigate('/login');
+            return;
+        }
+        if (user?.role === 'ADMIN' && window.location.pathname === '/') {
+            navigate('/admin');
+        }
+    }, [user, navigate]);
+
     const getTitle = () => {
         switch (location.pathname) {
             case '/member':
@@ -49,7 +64,7 @@ function MemberLayout() {
 
     return (
         <Container className='mt-5'>
-            <Breadcrum title={getTitle()} desc={getTitle()} />
+            <Breadcrumbs title={getTitle()} desc={getTitle()} />
 
             <Row className='g-4'>
                 {/* Sidebar */}

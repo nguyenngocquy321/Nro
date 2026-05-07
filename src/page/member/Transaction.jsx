@@ -1,4 +1,4 @@
-import HistoryNapThe from '@components/HistoryNapThe/HistoryNapThe';
+import HistoryNapThe from '@components/layout/HistoryNapThe/HistoryNapThe';
 function Transaction() {
     return (
         <div>

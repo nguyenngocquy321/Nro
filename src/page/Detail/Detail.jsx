@@ -1,24 +1,29 @@
-import { Button, Container } from 'react-bootstrap';
-import Breadcrum from '@common/BreadCum/BreadCum';
+import { Button, Container, Spinner } from 'react-bootstrap';
+import Breadcrumbs from '@components/common/Breadcrumbs/Breadcrumbs';
 import { Link } from 'react-router-dom';
+
 function Detail() {
     return (
-        <Container>
-            <Breadcrum
+        <Container className='py-4'>
+            <Breadcrumbs
                 title={
                     <div className='fs-4 mt-3'>
-                        <div className='mb-2'>ACC nro #35579 - Như Ảnh</div>
-                        <div className='mb-2'>
-                            <span>
-                                CARD : 3,950,000 <sup>đ</sup>
+                        <div className='mb-2'>ACC nro #{data.id} - Như Ảnh</div>
+
+                        <div className='mb-3'>
+                            <span className='me-4'>
+                                CARD: {data.priceCard?.toLocaleString()}{' '}
+                                <sup>đ</sup>
                             </span>
                             <span>
-                                ATM : 3,434,783 <sup>đ</sup>
+                                ATM: {data.priceATM?.toLocaleString()}{' '}
+                                <sup>đ</sup>
                             </span>
                         </div>
+
                         <Button
                             as={Link}
-                            to='/account?id=1'
+                            to={`/account?id=${data.id}`}
                             variant='danger'
                             className='w-50'
                         >
@@ -26,68 +31,67 @@ function Detail() {
                         </Button>
                     </div>
                 }
-                desc={'nro #35579'}
+                desc={`nro #${data.id}`}
             />
-            <div>
+
+            {/* ================= THÔNG TIN ================= */}
+            <div className='mt-4'>
                 <h2 className='fw-bold'>Thông Tin</h2>
                 <hr />
-                <div>
-                    <div>
-                        <div className='d-flex gap-4'>
-                            <div>
-                                HÀNH TINH:
-                                <strong className='text-danger ms-2'>
-                                    Xayda
-                                </strong>
-                            </div>
-                            <div>
-                                SERVER:
-                                <strong className='text-danger ms-2'>
-                                    2 sao
-                                </strong>
-                            </div>
-                        </div>
+
+                <div className='d-flex flex-column gap-2'>
+                    <div className='d-flex gap-4'>
                         <div>
-                            ĐĂNG KÝ:
-                            <strong className='text-danger ms-2'>Ảo</strong>
+                            HÀNH TINH:
+                            <strong className='text-danger ms-2'>
+                                {data.planet}
+                            </strong>
                         </div>
+
                         <div>
-                            NỔI BẬT:
-                            <br />
-                            <strong className='text-danger'>
-                                MAX 575K HP-ĐÃ KÍCH MAX SSN +3% SD-ĐÃ KÍCH BÓNG
-                                RỒNG-XAYDA SEVER 2 CHƠI HP-CHI TIẾT XEM ẢNH-
-                                THIỆN CHÍ MUA IB ZALO SHOP 0339.38.2222 CÓ FIX
-                                CHO AE
+                            SERVER:
+                            <strong className='text-danger ms-2'>
+                                {data.server} sao
                             </strong>
                         </div>
                     </div>
+
+                    <div>
+                        ĐĂNG KÝ:
+                        <strong className='text-danger ms-2'>
+                            {data.loaiDK}
+                        </strong>
+                    </div>
+
+                    <div>
+                        NỔI BẬT:
+                        <br />
+                        <strong className='text-danger'>{data.desc}</strong>
+                    </div>
                 </div>
             </div>
-            <div>
-                <div className='mt-3'>
-                    <img
-                        src='https://s3.hcm-1.cloud.cmctelecom.vn/bannick/storage/imageacc/644e1d76799c8aa1de471ddd83a68dca.jpg'
-                        alt=''
-                        style={{ width: '100%' }}
-                    />
-                </div>
-                <div className='mt-3'>
-                    <img
-                        src='https://s3.hcm-1.cloud.cmctelecom.vn/bannick/storage/imageacc/644e1d76799c8aa1de471ddd83a68dca.jpg'
-                        alt=''
-                        style={{ width: '100%' }}
-                    />
-                </div>
-                <div className='mt-3'>
-                    <img
-                        src='https://s3.hcm-1.cloud.cmctelecom.vn/bannick/storage/imageacc/644e1d76799c8aa1de471ddd83a68dca.jpg'
-                        alt=''
-                        style={{ width: '100%' }}
-                    />
-                </div>
+
+            {/* ================= HÌNH ẢNH ================= */}
+            <div className='mt-4'>
+                {detailImages.length > 0 ? (
+                    detailImages.map((img, index) => (
+                        <div className='mt-3' key={index}>
+                            <img
+                                src={img}
+                                alt={`detail-${index}`}
+                                style={{
+                                    width: '100%',
+                                    borderRadius: '8px',
+                                }}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <p className='text-muted'>Không có hình ảnh chi tiết</p>
+                )}
             </div>
         </Container>
     );
 }
+
 export default Detail;

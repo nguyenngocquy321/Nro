@@ -8,6 +8,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src'),
+            '@styles': path.resolve(__dirname, 'src/_styles'),
             '@images': path.resolve(__dirname, 'src/assets/Images'),
             '@contexts': path.resolve(__dirname, 'src/contexts'),
             '@page': path.resolve(__dirname, 'src/page'),
@@ -17,13 +18,4 @@ export default defineConfig({
             '@common': path.resolve(__dirname, 'src/ui/components/common'),
         },
     },
-
-    // server: {
-    //     proxy: {
-    //         '/api': {
-    //             target: 'http://localhost:5000',
-    //             changeOrigin: true,
-    //         },
-    //     },
-    // },
 });

@@ -1,4 +1,4 @@
-import NapThe from '@components/FormNapThe/NapThe';
+import NapThe from '@components/layout/FormNapThe/NapThe';
 
 function NapCard() {
     return (

@@ -1,4 +1,4 @@
-import NapTheATM from '@components/FormNapThe/NapTheATM';
+import NapTheATM from '@components/layout/FormNapThe/NapTheATM';
 function PageATM() {
     return (
         <>

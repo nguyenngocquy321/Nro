@@ -1,8 +1,8 @@
-import Content from '@components/Content/Content';
-import ImageSlider from '@components/ImageSlider/ImageSlider';
+import Content from '@components/layout/Content/Content';
+import ImageSlider from '@components/layout/ImageSlider/ImageSlider';
 import { Col, Container, Row } from 'react-bootstrap';
-import TableCard from '@components/TableCard/TableCard';
-import CardTextModal from '@components/CardTextModal/CardTextModal';
+import TableCard from '@components/layout/TableCard/TableCard';
+import CardTextModal from '@components/layout/CardTextModal/CardTextModal';
 function Home() {
     return (
         <>

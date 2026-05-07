@@ -9,8 +9,6 @@ import MemberLayout from '@page/member/MemberLayout';
 import PackNickNgocRongVip from '@page/PackNickNgocRongVip';
 import Detail from '@page/Detail/Detail';
 import TinTucGameNro from '@page/TinTuc/TinTucGameNro';
-import AdminHome from '@page/Admin/Home/Home';
-import CreateProducts from '@page/Admin/CreateProducts/CreateProducts';
 const routes = [
     {
         path: '/',
@@ -74,7 +72,12 @@ const routes = [
     },
 ];
 const routesAdmin = [
-    { path: '/admin', element: <AdminHome /> },
-    { path: '/admin/products', element: <CreateProducts /> },
+    // { path: '/admin', element: <AdminHome /> },
+    // { path: '/admin/products/add', element: <CreateProducts /> },
+    // { path: '/admin/products/add/Detail', element: <CreateDetailProducts /> },
+    // {
+    //     path: '/admin/products/add/DanhMucSanPham',
+    //     element: <CreateDanhMucSanPham />,
+    // },
 ];
 export { routes, routesAdmin };

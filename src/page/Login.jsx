@@ -1,5 +1,5 @@
 import { Breadcrumb, Container } from 'react-bootstrap';
-import FormLogin from '@components/FormAuth/FormLogin';
+import FormLogin from '@components/layout/FormAuth/FormLogin';
 function Login() {
     return (
         <>
