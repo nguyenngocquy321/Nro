@@ -37,10 +37,9 @@ async function startServer() {
     );
 
     app.set('trust proxy', 1);
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ limit: '50mb', extended: true }));
     app.use(cookieParser());
-    app.use(express.raw({ type: '*/*' }));
     setInterval(async () => {
       let isSyncing = false;
       if (isSyncing) return;
@@ -61,7 +60,6 @@ async function startServer() {
           createdAt: { $gte: fiveMinutesAgo },
         });
 
-        // 3. Xử lý song song bằng Promise.all (Nhanh hơn nhiều so với vòng lặp)
         await Promise.all(
           activeOrders.map(async (order) => {
             const valueAsNumber = Number(order.amount.toString());

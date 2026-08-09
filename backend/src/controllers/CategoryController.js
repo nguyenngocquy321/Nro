@@ -18,13 +18,14 @@ const getAllCategory = async (req, res) => {
 const createCategory = async (req, res) => {
   try {
     const { name, desc, slug, bgUrl, title } = req.body;
-    if (!name || !desc || !slug || !bgUrl || !title) {
-      return res.status(400).json({
-        success: false,
-        message: 'Vui lòng nhập đầy đủ thông tin',
-      });
-    }
-    const category = await categoryService.createCategory({ name, desc, slug, bgUrl, title });
+
+    const category = await categoryService.createCategory({
+      name,
+      desc: desc || '',
+      slug,
+      bgUrl,
+      title,
+    });
     if (category.message) {
       return res.status(400).json({
         success: false,
@@ -36,6 +37,7 @@ const createCategory = async (req, res) => {
       data: category,
     });
   } catch (error) {
+    console.error('lỗi file category Controller', error);
     return res.status(500).json({
       success: false,
       message: 'Có lỗi xảy ra khi tạo danh mục',

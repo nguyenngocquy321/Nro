@@ -4,6 +4,7 @@ import path from 'path';
 import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  envDir: '../',
   optimizeDeps: {
     // Thêm cả recharts và react-is vào đây để Vite biên dịch lại
     include: ['recharts', 'react-is'],
@@ -16,6 +17,7 @@ export default defineConfig({
       '@routers': path.resolve(__dirname, './src/routers'),
       '@styles': path.resolve(__dirname, 'src/_styles'),
       '@hook': path.resolve(__dirname, 'src/hook'),
+      '@config': path.resolve(__dirname, 'src/_config'),
     },
   },
 });

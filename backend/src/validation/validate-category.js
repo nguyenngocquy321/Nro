@@ -4,7 +4,6 @@ const { body, validationResult } = require('express-validator');
 const validateCategory = [
   body('name').notEmpty().withMessage('Tên danh mục không được để trống'),
   body('title').notEmpty().withMessage('Tiêu đề danh mục không được để trống'),
-  body('desc').notEmpty().withMessage('Mô tả không được để trống'),
   body('slug').notEmpty().withMessage('Slug không được để trống'),
   body('bgUrl').notEmpty().withMessage('URL ảnh không được để trống'),
 

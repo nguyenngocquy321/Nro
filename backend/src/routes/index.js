@@ -5,6 +5,7 @@ const ATM = require('./ATMRouter');
 const BuyAccount = require('./BuyAccountRouter');
 const Account = require('./AccountRouter');
 const Blogs = require('./BlogsRouter');
+const uploadFile = require('./uploadFileRouter');
 const routes = (app) => {
   app.use('/api/user', User);
   app.use('/api/category', Category);
@@ -13,6 +14,7 @@ const routes = (app) => {
   app.use('/api/buy', BuyAccount);
   app.use('/api/account', Account);
   app.use('/api/blogs', Blogs);
+  app.use('/api/upload', uploadFile);
 };
 
 module.exports = routes;
